@@ -1,5 +1,6 @@
-import type { LinksFunction, LoaderArgs, LoaderFunctionArgs } from "@remix-run/node";
+import { json, type LinksFunction, type LoaderArgs, type LoaderFunctionArgs } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
+import { SanityDocument } from "@sanity/client";
 import Location from "~/components/Location";
 
 import { ClientOnly } from "~/components/map/client-only";
@@ -15,7 +16,11 @@ export const links: LinksFunction = () => [
 ];
 
 export const loader = async ({ params }: LoaderFunctionArgs) => {
-  const location = await getClient().fetch(locationQuery, params);
+  const location = await getClient().fetch(locationQuery, params) as SanityDocument;
+
+if (location._type !== 'Location') {
+  return json({ message: 'Not found' }, { status: 404 })
+}
 
   return { location };
 };

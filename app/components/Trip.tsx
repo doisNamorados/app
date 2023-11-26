@@ -1,13 +1,10 @@
 // ./components/Location.tsx
 
-import { PortableText } from "@portabletext/react";
-import imageUrlBuilder from "@sanity/image-url";
 import type { SanityDocument } from "@sanity/client";
-import { projectId, dataset } from "~/lib/sanity";
-import { ClientOnly } from "./map/client-only";
-import { MyMapComponent } from "./othermap/Map";
-import { MapContainer, TileLayer } from "react-leaflet";
+import imageUrlBuilder from "@sanity/image-url";
+import { dataset, projectId } from "~/lib/sanity";
 import { Map } from "./map/Map.client";
+import { ClientOnly } from "./map/client-only";
 
 const builder = imageUrlBuilder({ projectId, dataset });
 

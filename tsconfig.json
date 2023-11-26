@@ -2,7 +2,7 @@
   "include": [
     "remix.env.d.ts",
     "**/*.ts",
-    "**/*.tsx",
+    "**/*.tsx", "../studio/sanity.config.ts",
   ],
   "compilerOptions": {
     "lib": [

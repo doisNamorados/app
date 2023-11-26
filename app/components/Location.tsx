@@ -1,35 +1,30 @@
 // ./components/Location.tsx
 
-import { PortableText } from "@portabletext/react";
 import imageUrlBuilder from "@sanity/image-url";
-import type { SanityDocument } from "@sanity/client";
-import { projectId, dataset } from "~/lib/sanity";
-import { ClientOnly } from "./map/client-only";
-import { MyMapComponent } from "./othermap/Map";
-import { MapContainer, TileLayer } from "react-leaflet";
+import { dataset, projectId } from "~/lib/sanity";
 import { Map } from "./map/Map.client";
+import { ClientOnly } from "./map/client-only";
 
 const builder = imageUrlBuilder({ projectId, dataset });
 
-export default function Location({ location }: { location: SanityDocument }) {
-  const { name, image, blurb, gps } = location;
-console.log(gps)
+type Location = Sanity.Default.Schema.Location
+export default function Location({ location }: { location: Location }) {
 const mapHeight = "400px";
 
   return (
     <>
     <main className="container mx-auto prose prose-lg p-4">
-      {name ? <h1>{name}</h1> : null}
-      {image ? (
+      {location?.name ? <h1>{location.name}</h1> : null}
+      {location?.image ? (
         <img
           className="float-left m-0 w-1/3 mr-4 rounded-lg"
-          src={builder.image(image).width(300).height(300).quality(80).url()}
+          src={builder.image(location.image).width(300).height(300).quality(80).url()}
           width={300}
           height={300}
-          alt={name}
+          alt={location.name}
         />
       ) : null}
-      <p>{blurb}</p>
+      <p>{location?.blurb}</p>
       
       <ClientOnly
       fallback={
@@ -39,7 +34,7 @@ const mapHeight = "400px";
         />
       }
     >
-      {() => <Map position = {[gps.lat, gps.lng]}height={mapHeight} />}
+      {() => <Map position = {[location?.gps.lat, location?.gps.lng]}height={mapHeight} />}
     </ClientOnly>
     </main>
     </>
